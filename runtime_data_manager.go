@@ -9,7 +9,7 @@ type RuntimeDataManager struct {
 
 // CreateRuntimeDataManager creates a new runtime data manager instance.
 func CreateRuntimeDataManager() RuntimeDataManager {
-	return RuntimeDataManager { make(map[interface{}]interface{}, 0) }
+	return RuntimeDataManager{make(map[interface{}]interface{}, 0)}
 }
 
 // Add adds an item to the runtime.
