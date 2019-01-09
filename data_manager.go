@@ -6,5 +6,7 @@ type DataManager interface {
 	Get(id interface{}, returnType interface{}) interface{}
 	Update(id interface{}, newItem interface{})
 	Remove(id interface{})
+	Filter(filter *FilterRequest) []interface{}
+	Length() int
 	Clear()
 }
