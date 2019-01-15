@@ -38,12 +38,12 @@ func (manager RuntimeDataManager) Remove(id interface{}) {
 }
 
 // Length lists the length of items in the runtime.
-func (manager *RuntimeDataManager) Length() int {
+func (manager RuntimeDataManager) Length() int {
 	return len(manager.Items)
 }
 
 // Filter applies a filter to the runtime items and returns a subset of the applicable items
-func (manager *RuntimeDataManager) Filter(filter *FilterRequest) []interface{} {
+func (manager RuntimeDataManager) Filter(filter *FilterRequest) []interface{} {
 	retVal := make([]interface{}, 0)
 
 	for _, v := range manager.Items {
@@ -152,6 +152,8 @@ func getItemPropertyValue(propertyName string, item interface{}) string {
 }
 
 // Clear removes all items from the runtime.
-func (manager *RuntimeDataManager) Clear() {
-	manager.Items = make(map[interface{}]interface{}, 0)
+func (manager RuntimeDataManager) Clear() {
+	for i := range manager.Items {
+		delete(manager.Items, i)
+	}
 }

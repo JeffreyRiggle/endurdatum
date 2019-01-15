@@ -42,13 +42,13 @@ func TestGetItem(t *testing.T) {
 	var item = TestItem{1, "This is a test"}
 	manager.Add(0, item)
 
-	retVal, ok := manager.Get(0).(TestItem)
+	var retVal, ok = manager.Get(0).(TestItem)
 
 	if !ok {
 		t.Error(
-			"For", manager.Items[0],
-			"expected TestItem",
-			"got error")
+			"For", manager,
+			"expected TestItem type",
+			"got", ok)
 	}
 
 	if retVal.Id != 1 {
@@ -67,13 +67,13 @@ func TestUpdateItem(t *testing.T) {
 	var itemup = TestItem{2, "This is a different test"}
 	manager.Update(0, itemup)
 
-	retVal, ok := manager.Get(0).(TestItem)
+	var retVal, ok = manager.Get(0).(TestItem)
 
 	if !ok {
 		t.Error(
-			"For", manager.Items[0],
-			"expected TestItem",
-			"got error")
+			"For", manager,
+			"expected TestItem type",
+			"got", ok)
 	}
 
 	if retVal.Value != "This is a different test" {
@@ -117,7 +117,7 @@ func TestClear(t *testing.T) {
 }
 
 func TestLength(t *testing.T) {
-	var manager = CreateRuntimeDataManager()
+	var manager DataManager = CreateRuntimeDataManager()
 	manager.Add(0, TestItem{1, "some test"})
 	len1 := manager.Length()
 	if len1 != 1 {
