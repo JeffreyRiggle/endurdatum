@@ -43,13 +43,34 @@ func TestGetItem(t *testing.T) {
 	manager.Add(0, item)
 
 	var retVal TestItem
-	manager.Get(0, &retVal)
+	ok := manager.Get(0, &retVal)
+
+	if !ok {
+		t.Error(
+			"For", ok,
+			"expected", true,
+			"got", ok)
+	}
 
 	if retVal.Id != 1 {
 		t.Error(
 			"For", retVal.Id,
 			"expected", 1,
 			"got", retVal.Id)
+	}
+}
+
+func TestFailGetItem(t *testing.T) {
+	var manager = CreateRuntimeDataManager()
+
+	var retVal TestItem
+	ok := manager.Get(0, &retVal)
+
+	if ok {
+		t.Error(
+			"For", ok,
+			"expected", false,
+			"got", ok)
 	}
 }
 
@@ -62,7 +83,14 @@ func TestUpdateItem(t *testing.T) {
 	manager.Update(0, itemup)
 
 	var retVal TestItem
-	manager.Get(0, &retVal)
+	ok := manager.Get(0, &retVal)
+
+	if !ok {
+		t.Error(
+			"For", ok,
+			"expected", true,
+			"got", ok)
+	}
 
 	if retVal.Value != "This is a different test" {
 		t.Error(
