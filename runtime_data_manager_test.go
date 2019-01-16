@@ -42,14 +42,8 @@ func TestGetItem(t *testing.T) {
 	var item = TestItem{1, "This is a test"}
 	manager.Add(0, item)
 
-	var retVal, ok = manager.Get(0).(TestItem)
-
-	if !ok {
-		t.Error(
-			"For", manager,
-			"expected TestItem type",
-			"got", ok)
-	}
+	var retVal TestItem
+	manager.Get(0, &retVal)
 
 	if retVal.Id != 1 {
 		t.Error(
@@ -67,14 +61,8 @@ func TestUpdateItem(t *testing.T) {
 	var itemup = TestItem{2, "This is a different test"}
 	manager.Update(0, itemup)
 
-	var retVal, ok = manager.Get(0).(TestItem)
-
-	if !ok {
-		t.Error(
-			"For", manager,
-			"expected TestItem type",
-			"got", ok)
-	}
+	var retVal TestItem
+	manager.Get(0, &retVal)
 
 	if retVal.Value != "This is a different test" {
 		t.Error(

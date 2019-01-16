@@ -23,8 +23,12 @@ func (manager RuntimeDataManager) Add(id interface{}, item interface{}) {
 }
 
 // Get gets an item based off of its id from the runtime.
-func (manager RuntimeDataManager) Get(id interface{}) interface{} {
-	return manager.Items[id]
+func (manager RuntimeDataManager) Get(id interface{}, retVal interface{}) {
+	retValType := reflect.ValueOf(retVal)
+	retValVal := reflect.Indirect(retValType)
+
+	item := reflect.ValueOf(manager.Items[id])
+	retValVal.Set(reflect.Indirect(item))
 }
 
 // Update updates an item in the runtime.
