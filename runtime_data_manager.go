@@ -12,6 +12,11 @@ type RuntimeDataManager struct {
 	Items map[interface{}]interface{}
 }
 
+type FilterCheck struct {
+	Item     interface{}
+	InFilter bool
+}
+
 // CreateRuntimeDataManager creates a new runtime data manager instance.
 func CreateRuntimeDataManager() RuntimeDataManager {
 	return RuntimeDataManager{make(map[interface{}]interface{}, 0)}
@@ -56,11 +61,21 @@ func (manager RuntimeDataManager) Length() int {
 
 // Filter applies a filter to the runtime items and returns a subset of the applicable items
 func (manager RuntimeDataManager) Filter(filter *FilterRequest) []interface{} {
-	retVal := make([]interface{}, 0)
+	totalItems := len(manager.Items)
+	c := make(chan FilterCheck)
 
 	for _, v := range manager.Items {
-		if inFilterRequest(v, filter) {
-			retVal = append(retVal, v)
+		go func(v interface{}, filter *FilterRequest) {
+			c <- FilterCheck{v, inFilterRequest(v, filter)}
+		}(v, filter)
+	}
+
+	retVal := make([]interface{}, 0)
+	for i := 0; i < totalItems; i++ {
+		output := <-c
+
+		if output.InFilter {
+			retVal = append(retVal, output.Item)
 		}
 	}
 
