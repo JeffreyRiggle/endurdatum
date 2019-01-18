@@ -149,7 +149,7 @@ func itemInFilter(item interface{}, filter Filter) bool {
 }
 
 func getItemPropertyValue(propertyName string, item interface{}) string {
-	s := reflect.ValueOf(item).Elem()
+	s := reflect.ValueOf(item)
 	t := s.Type()
 
 	for i := 0; i < s.NumField(); i++ {
